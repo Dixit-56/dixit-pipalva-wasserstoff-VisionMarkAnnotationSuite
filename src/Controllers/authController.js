@@ -21,7 +21,11 @@ const registerUser = async (req, res) => {
       phone_no,
       password: hashedPassword,
     });
-    StatusCode.sendSuccessResponse(res, "User registered successfully", newUser);
+    StatusCode.sendSuccessResponse(
+      res,
+      "User registered successfully",
+      newUser
+    );
   } catch (error) {
     StatusCode.InternalErrorResponse(res, error.message);
   }
@@ -34,8 +38,10 @@ const registerAdmin = async (req, res) => {
     // Check if email already exists
     const existingAdmin = await User.findOne({ email });
     if (existingAdmin) {
-      return StatusCode.conflictWithClient(res, "Admin with this email already exists");
-
+      return StatusCode.conflictWithClient(
+        res,
+        "Admin with this email already exists"
+      );
     }
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -47,8 +53,9 @@ const registerAdmin = async (req, res) => {
       password: hashedPassword,
       role: "admin", // Set role to admin
     });
-    StatusCode.sendSuccessResponse(res, "Admin registered successfully", { admin: newAdmin });
-
+    StatusCode.sendSuccessResponse(res, "Admin registered successfully", {
+      admin: newAdmin,
+    });
   } catch (error) {
     StatusCode.InternalErrorResponse(res, error.message);
   }
@@ -61,26 +68,18 @@ const login = async (req, res) => {
     if (!user) {
       return StatusCode.sendNotFoundResponse(res, "User not found");
     }
-    // Check if user role is admin
-    if (user.role !== "admin") {
-      return StatusCode.sendUnauthorizedResponse(res, "Unauthorized access");
-    }
     // Compare passwords
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return StatusCode.sendUnauthorizedResponse(res, "Invalid credentials");
     }
-    // Check if the user is already registered with the email
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return StatusCode.conflictWithClient(res, "Email already exists");
-    }
+
     // Check user role
     const role = user.role;
     // Generate JWT token
     const token = jwt.sign(
       { userId: user._id, role: user.role },
-      process.env.JWT_SECRET,
+      process.env.SECRET_KEY,
       {
         expiresIn: "1h",
       }
@@ -88,10 +87,10 @@ const login = async (req, res) => {
     // Set success message based on role
     const successMessage =
       role === "user" ? "User login successful" : "Admin login successful";
-      StatusCode.sendSuccessResponse(res, successMessage, { user, token });
-    } catch (error) {
-      StatusCode.InternalErrorResponse(res, error.message);
-    }
+    StatusCode.sendSuccessResponse(res, successMessage, { user, token });
+  } catch (error) {
+    StatusCode.InternalErrorResponse(res, error.message);
+  }
 };
 
 export const userController = {

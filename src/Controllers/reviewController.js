@@ -1,4 +1,5 @@
 import Image from "../models/imageModel.js";
+import { StatusCode } from "../Services/statusCode.js";
 
 // Endpoint for admins to review images
 const reviewImages = async (req, res) => {

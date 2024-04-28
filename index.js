@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use("/user", index.User.route);
+app.use("/auth", index.User.route);
 app.use("/review", index.Review.route);
 app.use("/image", index.Image.route);
 app.use("/annotate", index.Annotation.route);

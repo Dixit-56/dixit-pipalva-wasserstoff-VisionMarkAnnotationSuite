@@ -2,6 +2,7 @@
 import path from "path";
 import Image from "../models/imageModel.js";
 import Annotation from "../Models/annotationModel.js";
+import { StatusCode } from "../Services/statusCode.js";
 
 const associateAnnotations = async (req, res) => {
   try {
