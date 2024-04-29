@@ -27,5 +27,5 @@ To get started with VisionMark AI backend services, follow these steps:
 2. **Install dependencies**: `npm install`
 3. **Set up MongoDB**: Ensure MongoDB is installed and running locally or configure connection settings accordingly.
 4. **Configure environment variables**: Set up environment variables for sensitive information such as database connection strings and JWT secrets.
-5. **Start the server**: `npm start`
+5. **Start the server**: `npm run start`
 6. **Explore the API documentation**: [Postman Collection](https://drive.google.com/file/d/17O9Mr3K2l4vC4ncgPdIWKvy7qmUpSmsP/view?usp=drive_link) , [Environment Variable](https://drive.google.com/file/d/1SmuOHchL7_YlzEkeG9tMpMIqax1DM4n8/view?usp=drive_link)
